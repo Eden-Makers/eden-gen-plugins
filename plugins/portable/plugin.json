@@ -1,0 +1,41 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "eden-gen",
+  "version": "0.1.0",
+  "description": "Generate images, video and audio with a price estimate and project budget controls.",
+  "author": {
+    "name": "Edenmakers"
+  },
+  "homepage": "https://edengen.ai",
+  "license": "MIT",
+  "keywords": [
+    "image",
+    "video",
+    "audio",
+    "generation",
+    "creative"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Eden Gen",
+        "shortDescription": "Create images, video and audio with project budgets",
+        "longDescription": "Generate images, video and audio with a price estimate and project budget controls.",
+        "developerName": "Edenmakers",
+        "websiteURL": "https://edengen.ai",
+        "privacyPolicyURL": "https://edengen.ai/privacy",
+        "termsOfServiceURL": "https://edengen.ai/terms",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "composerIcon": "./assets/icon.png",
+        "logo": "./assets/icon.png",
+        "defaultPrompt": [
+          "Use Eden Gen to price an image for my project.",
+          "Use Eden Gen to prepare a video draft from my reference."
+        ]
+      }
+    }
+  }
+}

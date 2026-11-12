@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "ai.edengen/eden-gen",
+  "title": "Eden Gen",
+  "description": "Generate images, video and audio with a price estimate and project budget controls.",
+  "version": "0.1.0",
+  "websiteUrl": "https://edengen.ai",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://edengen.ai/mcp"
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/Eden-Makers/eden-gen-plugins",
+    "source": "github"
+  }
+}

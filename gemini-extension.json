@@ -1,0 +1,11 @@
+{
+  "name": "eden-gen",
+  "version": "0.1.0",
+  "description": "Generate images, video and audio with a price estimate and project budget controls.",
+  "contextFileName": "GEMINI.md",
+  "mcpServers": {
+    "eden-gen": {
+      "httpUrl": "https://edengen.ai/mcp"
+    }
+  }
+}

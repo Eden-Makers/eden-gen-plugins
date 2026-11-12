@@ -1,0 +1,15 @@
+{
+  "name": "eden-gen",
+  "owner": { "name": "Edenmakers", "url": "https://edengen.ai" },
+  "metadata": { "description": "Eden Gen: generate images, video and audio from your agent, with a price estimate before every take." },
+  "plugins": [
+    {
+      "name": "eden-gen",
+      "source": "./plugins/claude",
+      "description": "Generate images, video and audio with a price estimate and project budget controls.",
+      "homepage": "https://edengen.ai",
+      "license": "MIT",
+      "category": "creative"
+    }
+  ]
+}

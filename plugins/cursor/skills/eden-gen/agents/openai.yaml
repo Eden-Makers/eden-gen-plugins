@@ -1,0 +1,4 @@
+interface:
+  display_name: "Eden Gen"
+  short_description: "Price and create image, video and audio takes"
+  default_prompt: "Use $eden-gen to prepare and price a draft on my project."

@@ -1,0 +1,13 @@
+{
+  "name": "eden-gen",
+  "version": "0.1.0",
+  "description": "Generate images, video and audio with a price estimate and project budget controls.",
+  "author": {
+    "name": "Edenmakers"
+  },
+  "homepage": "https://edengen.ai",
+  "license": "MIT",
+  "skills": "./skills/",
+  "mcpServers": "./mcp.json",
+  "logo": "./assets/icon.png"
+}
