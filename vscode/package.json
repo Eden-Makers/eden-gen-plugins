@@ -1,0 +1,48 @@
+{
+  "name": "edengen",
+  "displayName": "Eden Gen",
+  "description": "Generate an Eden Gen image or video into the workspace, and register the Eden Gen MCP server.",
+  "version": "0.1.0",
+  "private": true,
+  "publisher": "edenmakers",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.101.0"
+  },
+  "categories": ["AI", "Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "edengen.generate",
+        "title": "Eden Gen: Generate into workspace"
+      },
+      {
+        "command": "edengen.setToken",
+        "title": "Eden Gen: Set API token"
+      },
+      {
+        "command": "edengen.signIn",
+        "title": "Eden Gen: Sign in"
+      }
+    ],
+    "mcpServerDefinitionProviders": [
+      {
+        "id": "edengen.mcp",
+        "label": "Eden Gen"
+      }
+    ]
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "tsc --noEmit -p tsconfig.json",
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "@types/vscode": "1.101.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.9.3"
+  }
+}

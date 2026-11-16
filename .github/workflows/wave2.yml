@@ -1,0 +1,123 @@
+name: wave 2
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  wave2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: PHP syntax
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y php-cli
+          php -l wordpress/eden-gen/eden-gen.php
+          php -l wordpress/eden-gen/includes/class-edengen-api.php
+          php -l wordpress/eden-gen/includes/class-edengen-rest.php
+          node --check wordpress/eden-gen/assets/editor.js
+      - name: No em dash or en dash in wave 2
+        run: |
+          python3 - <<'PY'
+          import pathlib
+          roots = ["edengen-rest","canva","adobe-express","framer","notion","discord","telegram","vscode","jetbrains","shopify","wordpress","webflow","apple-shortcuts","huggingface"]
+          bad = []
+          for root in roots:
+              for path in pathlib.Path(root).rglob("*"):
+                  if not path.is_file() or "node_modules" in path.parts or path.suffix in {".png", ".jpg"}:
+                      continue
+                  text = path.read_text(errors="ignore")
+                  if "\u2013" in text or "\u2014" in text:
+                      bad.append(str(path))
+          for name in ["INTEGRATIONS.md", "TAKES-CHANGES-NEEDED-WAVE2.md"]:
+              text = pathlib.Path(name).read_text()
+              if "\u2013" in text or "\u2014" in text:
+                  bad.append(name)
+          if bad:
+              raise SystemExit("dash found in " + ", ".join(bad))
+          PY
+      - name: JSON parses
+        run: |
+          python3 - <<'PY'
+          import json, pathlib
+          roots = ["canva","adobe-express","framer","notion","discord","telegram","vscode","shopify","webflow","jetbrains","huggingface"]
+          for root in roots:
+              for path in pathlib.Path(root).rglob("*.json"):
+                  if "node_modules" in path.parts:
+                      continue
+                  json.loads(path.read_text())
+          print("json ok")
+          PY
+      - name: REST client
+        working-directory: edengen-rest
+        run: |
+          npm install
+          npm test
+          npm run typecheck
+      - name: Canva
+        working-directory: canva
+        run: |
+          npm install
+          npm run typecheck
+          npm run build
+      - name: Adobe Express
+        working-directory: adobe-express
+        run: |
+          npm install
+          npm run typecheck
+          npm run build
+      - name: Framer
+        working-directory: framer
+        run: |
+          npm install
+          npm run typecheck
+          npm run build
+      - name: Webflow
+        working-directory: webflow
+        run: |
+          npm install
+          npm run typecheck
+          npm run build
+      - name: Notion
+        working-directory: notion
+        run: |
+          npm install
+          npm test
+          npm run typecheck
+      - name: Discord
+        working-directory: discord
+        run: |
+          npm install
+          npm test
+          npm run typecheck
+      - name: Telegram
+        working-directory: telegram
+        run: |
+          npm install
+          npm test
+          npm run typecheck
+      - name: VS Code
+        working-directory: vscode
+        run: |
+          npm install
+          npm run typecheck
+          npm run build
+      - name: Shopify
+        working-directory: shopify
+        run: |
+          npm install
+          npm test
+          npm run typecheck
+      - name: Shortcuts and Space
+        run: |
+          python3 apple-shortcuts/build_shortcut.py
+          python3 -m unittest discover -s apple-shortcuts -p 'test_*.py'
+          python3 -m unittest discover -s huggingface -p 'test_*.py'
+          python3 -m py_compile huggingface/eden.py huggingface/app.py
