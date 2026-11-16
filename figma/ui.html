@@ -70,11 +70,17 @@
       <p>Pick a model, see the price, then place one image in the selection or a new frame.</p>
     </header>
     <main>
-      <label>API token<input id="token" type="password" autocomplete="off" placeholder="tk_..." /></label>
+      <label>Personal token<input id="token" type="password" autocomplete="off" placeholder="tkp_..." /></label>
+      <p>Create it in Settings, API and agents. Or sign in. The redirect is https://www.figma.com/oauth/callback.</p>
       <div class="row">
         <button class="ghost" id="save" type="button">Save token</button>
         <button class="ghost" id="models" type="button">Load models</button>
       </div>
+      <div class="row">
+        <button class="ghost" id="signin" type="button">Sign in with Eden Gen</button>
+      </div>
+      <label>Callback address<textarea id="callback" placeholder="Paste the https://www.figma.com/oauth/callback?... address"></textarea></label>
+      <button class="ghost" id="finish" type="button">Finish sign-in</button>
       <label>Prompt<textarea id="prompt" placeholder="A red lighthouse at dusk, film still, no text"></textarea></label>
       <label>Model<select id="model"></select></label>
       <label>Format<select id="aspect"><option>16:9</option><option>9:16</option><option>1:1</option></select></label>

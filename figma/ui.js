@@ -8,6 +8,11 @@
   var ORIGIN = "https://edengen.ai";
   var API_BASE = `${ORIGIN}/v1`;
   var REST_RESOURCE = `${ORIGIN}/v1`;
+  var OAUTH_SCOPE = "takes";
+  var OPENAPI_URL = `${ORIGIN}/openapi.json`;
+  var TOKEN_SETTINGS_URL = `${ORIGIN}/app/settings?tab=api`;
+  var HELP_URL = `${ORIGIN}/docs/help`;
+  var FIGMA_REDIRECT = "https://www.figma.com/oauth/callback";
   var AUTHORIZE_URL = `${ORIGIN}/oauth/authorize`;
   var TOKEN_URL = `${ORIGIN}/oauth/token`;
   var REGISTER_URL = `${ORIGIN}/oauth/register`;
@@ -47,6 +52,32 @@
       max_cost_usd: input.max_cost_usd,
       confirm_cost: confirmCost ? true : void 0
     });
+  }
+  function bytesToBase64Url(bytes) {
+    let binary = "";
+    for (const byte of bytes) binary += String.fromCharCode(byte);
+    return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+  }
+  async function pkceChallenge(verifier) {
+    const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier));
+    return bytesToBase64Url(new Uint8Array(digest));
+  }
+  function randomVerifier() {
+    const bytes = new Uint8Array(32);
+    crypto.getRandomValues(bytes);
+    return bytesToBase64Url(bytes);
+  }
+  function authorizeUrl(args) {
+    const url = new URL(AUTHORIZE_URL);
+    url.searchParams.set("response_type", "code");
+    url.searchParams.set("client_id", args.clientId);
+    url.searchParams.set("redirect_uri", args.redirectUri);
+    url.searchParams.set("scope", args.scope ?? OAUTH_SCOPE);
+    url.searchParams.set("state", args.state);
+    url.searchParams.set("code_challenge", args.codeChallenge);
+    url.searchParams.set("code_challenge_method", "S256");
+    url.searchParams.set("resource", REST_RESOURCE);
+    return url.toString();
   }
   async function readError(response) {
     const body = await response.json().catch(() => ({}));
@@ -112,20 +143,24 @@
     account() {
       return this.request("/account");
     }
+    /** One-time upload slot. Personal tokens are allowed: the route scope is uploads:write. */
     async uploadBytes(data, filename) {
-      const response = await this.fetchImpl(`${API_BASE}/assets`, {
+      const slot = await this.request("/uploads", {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${this.token}`,
-          "Content-Type": "application/octet-stream",
-          "X-Filename": encodeURIComponent(filename),
-          Accept: "application/json"
-        },
+        body: { filename }
+      });
+      const response = await this.fetchImpl(slot.upload_url, {
+        method: slot.method,
+        headers: { "Content-Type": "application/octet-stream", Accept: "application/json" },
         body: data
       });
       if (!response.ok) throw await readError(response);
       return await response.json();
     }
+    /**
+     * Import an https URL. POST /v1/assets does not declare a scope, so a personal token (tkp_) is refused
+     * until takes adds uploads:write on that route. A developer key (tk_, no scope list) still works.
+     */
     uploadUrl(url) {
       return this.request("/assets", { method: "POST", body: { url } });
     }
@@ -140,6 +175,50 @@
       }
     }
   };
+  async function registerPublicClient(redirectUri, clientName, fetchImpl = fetch) {
+    const response = await fetchImpl(REGISTER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        client_name: clientName,
+        redirect_uris: [redirectUri],
+        grant_types: ["authorization_code", "refresh_token"],
+        response_types: ["code"],
+        token_endpoint_auth_method: "none",
+        scope: OAUTH_SCOPE
+      })
+    });
+    if (!response.ok) throw await readError(response);
+    const body = await response.json();
+    if (!body.client_id) throw new EdenGenError("Registration returned no client_id.", response.status, "invalid_client");
+    return body.client_id;
+  }
+  async function exchangeAuthorizationCode(args, fetchImpl = fetch) {
+    return tokenRequest(
+      {
+        grant_type: "authorization_code",
+        client_id: args.clientId,
+        code: args.code,
+        redirect_uri: args.redirectUri,
+        code_verifier: args.codeVerifier,
+        resource: REST_RESOURCE
+      },
+      fetchImpl
+    );
+  }
+  async function tokenRequest(fields, fetchImpl) {
+    const body = new URLSearchParams(fields);
+    const response = await fetchImpl(TOKEN_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
+      body
+    });
+    if (!response.ok) throw await readError(response);
+    const json = await response.json();
+    if (!json.access_token)
+      throw new EdenGenError("Token response had no access_token.", response.status, "invalid_token");
+    return json;
+  }
   function formatUsd(value) {
     if (value === void 0 || Number.isNaN(value)) return "unknown";
     return `$${value.toFixed(value >= 1 ? 2 : 4)}`;
@@ -153,6 +232,7 @@
   }
 
   // ui.ts
+  var pending = null;
   var tokenInput = document.querySelector("#token");
   var promptInput = document.querySelector("#prompt");
   var modelSelect = document.querySelector("#model");
@@ -224,6 +304,51 @@
   }
   document.querySelector("#save").addEventListener("click", () => {
     parent.postMessage({ pluginMessage: { type: "save-token", token: tokenInput.value.trim() } }, "*");
+  });
+  document.querySelector("#signin").addEventListener("click", async () => {
+    error.textContent = "";
+    try {
+      const verifier = randomVerifier();
+      const state = randomVerifier();
+      const clientId = await registerPublicClient(FIGMA_REDIRECT, "Eden Gen for Figma");
+      pending = { clientId, verifier, state };
+      const url = authorizeUrl({
+        clientId,
+        redirectUri: FIGMA_REDIRECT,
+        state,
+        codeChallenge: await pkceChallenge(verifier)
+      });
+      window.open(url, "_blank");
+      price.textContent = `Approve in the browser, then paste the callback address. If no window opened, open this address: ${url}`;
+    } catch (cause) {
+      show(cause);
+    }
+  });
+  document.querySelector("#finish").addEventListener("click", async () => {
+    error.textContent = "";
+    try {
+      if (!pending) throw new Error("Start sign-in first.");
+      const pasted = new URL(document.querySelector("#callback").value.trim());
+      const got = `${pasted.origin}${pasted.pathname}`.replace(/\/$/, "");
+      if (got !== FIGMA_REDIRECT) {
+        throw new Error("Paste the address that starts with https://www.figma.com/oauth/callback.");
+      }
+      if (pasted.searchParams.get("state") !== pending.state) throw new Error("Sign-in state did not match. Start again.");
+      const code = pasted.searchParams.get("code");
+      if (!code) throw new Error(pasted.searchParams.get("error_description") || "The callback has no code.");
+      const tokens = await exchangeAuthorizationCode({
+        clientId: pending.clientId,
+        code,
+        redirectUri: FIGMA_REDIRECT,
+        codeVerifier: pending.verifier
+      });
+      tokenInput.value = tokens.access_token;
+      parent.postMessage({ pluginMessage: { type: "save-token", token: tokens.access_token } }, "*");
+      price.textContent = "Signed in. The token is an OAuth access token for https://edengen.ai/v1.";
+      await loadModels();
+    } catch (cause) {
+      show(cause);
+    }
   });
   document.querySelector("#models").addEventListener("click", () => {
     loadModels().catch(show);

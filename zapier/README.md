@@ -7,7 +7,7 @@ Actions:
 - Create Take (`creates/create-take.js`). Estimates first. Creates one take only when `can_run` is true. If the estimate needs confirmation, the action errors unless Confirm cost is on. Sends `max_cost_usd` of the estimated total and one idempotency key.
 - Get Take (`creates/get-take.js`). Fetches `GET /v1/takes/{id}`.
 
-Auth is a custom API token field. The before-request hook sets `Authorization: Bearer`. The connection label is the static text `Eden Gen` so the token is not shown.
+Auth is a personal token (`tkp_`) from Settings, API and agents. The before-request hook sets `Authorization: Bearer`. The connection label is the static text `Eden Gen` so the token is not shown. OpenAPI: https://edengen.ai/openapi.json. Reviewer store id: `zapier`.
 
 ## Checks
 

@@ -98,6 +98,9 @@ async function client(): Promise<EdenGenClient> {
 
 async function signIn(): Promise<void> {
   const redirectUri = chrome.identity.getRedirectURL();
+  if (!/^https:\/\/[a-p]{32}\.chromiumapp\.org\/$/.test(redirectUri)) {
+    throw new Error("Eden Gen only accepts https://<extension-id>.chromiumapp.org/ and this id does not match.");
+  }
   const existing = await oauthSession();
   const clientId =
     existing?.redirectUri === redirectUri ? existing.clientId : await registerPublicClient(redirectUri, "Eden Gen for Chrome");

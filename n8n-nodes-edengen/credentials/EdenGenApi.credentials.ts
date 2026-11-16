@@ -11,7 +11,7 @@ export class EdenGenApi implements ICredentialType {
       type: "string",
       typeOptions: { password: true },
       default: "",
-      description: "Workspace token from https://edengen.ai/app/developers. It starts with tk_.",
+      description: "Personal token from Settings, API and agents (https://edengen.ai/app/settings?tab=api). It starts with tkp_. Needs estimate, takes:write, and takes:read.",
     },
   ];
   authenticate = {

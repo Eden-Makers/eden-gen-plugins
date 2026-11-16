@@ -1,11 +1,19 @@
 import {
   DEFAULT_MODELS,
   EdenGenClient,
+  FIGMA_REDIRECT,
   type Estimate,
   type ModelRecord,
   assertPrompt,
+  authorizeUrl,
+  exchangeAuthorizationCode,
   formatUsd,
+  pkceChallenge,
+  randomVerifier,
+  registerPublicClient,
 } from "../shared/edengen-rest";
+
+let pending: { clientId: string; verifier: string; state: string } | null = null;
 
 const tokenInput = document.querySelector<HTMLInputElement>("#token")!;
 const promptInput = document.querySelector<HTMLTextAreaElement>("#prompt")!;
@@ -88,6 +96,53 @@ function runInput() {
 
 document.querySelector("#save")!.addEventListener("click", () => {
   parent.postMessage({ pluginMessage: { type: "save-token", token: tokenInput.value.trim() } }, "*");
+});
+
+document.querySelector("#signin")!.addEventListener("click", async () => {
+  error.textContent = "";
+  try {
+    const verifier = randomVerifier();
+    const state = randomVerifier();
+    const clientId = await registerPublicClient(FIGMA_REDIRECT, "Eden Gen for Figma");
+    pending = { clientId, verifier, state };
+    const url = authorizeUrl({
+      clientId,
+      redirectUri: FIGMA_REDIRECT,
+      state,
+      codeChallenge: await pkceChallenge(verifier),
+    });
+    window.open(url, "_blank");
+    price.textContent = `Approve in the browser, then paste the callback address. If no window opened, open this address: ${url}`;
+  } catch (cause) {
+    show(cause);
+  }
+});
+
+document.querySelector("#finish")!.addEventListener("click", async () => {
+  error.textContent = "";
+  try {
+    if (!pending) throw new Error("Start sign-in first.");
+    const pasted = new URL(document.querySelector<HTMLTextAreaElement>("#callback")!.value.trim());
+    const got = `${pasted.origin}${pasted.pathname}`.replace(/\/$/, "");
+    if (got !== FIGMA_REDIRECT) {
+      throw new Error("Paste the address that starts with https://www.figma.com/oauth/callback.");
+    }
+    if (pasted.searchParams.get("state") !== pending.state) throw new Error("Sign-in state did not match. Start again.");
+    const code = pasted.searchParams.get("code");
+    if (!code) throw new Error(pasted.searchParams.get("error_description") || "The callback has no code.");
+    const tokens = await exchangeAuthorizationCode({
+      clientId: pending.clientId,
+      code,
+      redirectUri: FIGMA_REDIRECT,
+      codeVerifier: pending.verifier,
+    });
+    tokenInput.value = tokens.access_token;
+    parent.postMessage({ pluginMessage: { type: "save-token", token: tokens.access_token } }, "*");
+    price.textContent = "Signed in. The token is an OAuth access token for https://edengen.ai/v1.";
+    await loadModels();
+  } catch (cause) {
+    show(cause);
+  }
 });
 
 document.querySelector("#models")!.addEventListener("click", () => {

@@ -61,7 +61,7 @@
     {
       "name": "apiToken",
       "title": "API token",
-      "description": "Used when Sign-in is API token. Create one at edengen.ai/app/developers. It starts with tk_.",
+      "description": "Personal token from Settings, API and agents. It starts with tkp_. Needs models:read, estimate, takes:write, takes:read, and account:read.",
       "type": "password",
       "required": false
     }

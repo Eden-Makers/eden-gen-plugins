@@ -22,7 +22,7 @@
         "category": "Productivity",
         "capabilities": ["Read", "Write"],
         "websiteURL": "https://edengen.ai",
-        "supportURL": "https://edengen.ai/docs/agents",
+        "supportURL": "https://edengen.ai/docs/help",
         "privacyPolicyURL": "https://edengen.ai/privacy",
         "termsOfServiceURL": "https://edengen.ai/terms",
         "defaultPrompt": [

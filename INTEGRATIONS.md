@@ -12,7 +12,7 @@ Nothing in this table was submitted, published or deployed by this change. "Buil
 | Droppy droplet (`droppy/`) | Yes. Not compiled here | Droppy Store is a GitLab merge request, no extra account beyond GitLab | `droppykit build` on a Mac, drop a PNG, replace the placeholder icon if asked | No |
 | Figma (`figma/`) | Yes | Figma community publisher | CORS change in takes, then one real generate, screenshots | No |
 | Chrome (`chrome/`) | Yes | Chrome Web Store developer fee | Unpacked trial, screenshots, video, submit | No |
-| Slack (`slack/`) | Manifest and takes spec only. Server is not in this repo | Slack app in the Edenmakers workspace | Implement `slack/TAKES-ENDPOINTS.md` in takes, then create the app | No |
+| Slack (`slack/`) | Manifest matches takes draft PR 67. Server is in that draft, not here | Slack app in the Edenmakers workspace | Set `SLACK_APP_ENABLED` and the Slack secrets, Add to Slack, reviewer store id `slack` | No |
 | Zapier (`zapier/`) | CLI skeleton with Create Take and Get Take | Zapier Platform partner | `zapier register` and `zapier push` when you mean it, test token for review | No |
 | Make (`make/`) | App sketch and scenario blueprint | Make custom-app publisher | Rebuild in the Make editor if import is refused, run one scenario | No |
 | n8n (`n8n-nodes-edengen/`) | Node package, not published | npm org and n8n Creator Portal | Provenance publish workflow, local n8n trial | No |

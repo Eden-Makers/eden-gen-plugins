@@ -12,7 +12,7 @@ module.exports = {
       label: "API token",
       required: true,
       type: "password",
-      helpText: "Create a token at https://edengen.ai/app/developers. It starts with tk_.",
+      helpText: "Personal token from https://edengen.ai/app/settings?tab=api. It starts with tkp_. Needs estimate, takes:write, and takes:read. OpenAPI: https://edengen.ai/openapi.json.",
     },
   ],
   connectionLabel: "Eden Gen",

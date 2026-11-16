@@ -14,7 +14,7 @@ Upload that ZIP at https://platform.openai.com/plugins. Choose With MCP. One rem
 
 ## Domain challenge
 
-OpenAI shows a token in the portal. The takes app must answer `GET https://edengen.ai/.well-known/openai-apps-challenge` with that exact token as `text/plain`. The route is not on the server today. The change is specified in `TAKES-CHANGES-NEEDED.md`. Do not put the token in this repository. Verification does not use the MCP client certificate, so the challenge URL must be reachable without mTLS.
+OpenAI shows a token in the portal. Draft takes pull request 67 answers `GET https://edengen.ai/.well-known/openai-apps-challenge` with the `OPENAI_APPS_CHALLENGE` value as `text/plain`. Unset answers 404. That pull request is not merged. Paste the token into the env var after deploy. Do not commit it. Verification does not use the MCP client certificate, so the challenge URL must be reachable without mTLS.
 
 ## Submission steps
 
@@ -30,7 +30,7 @@ OpenAI shows a token in the portal. The takes app must answer `GET https://edeng
 ## Review requirements
 
 - Verified publisher identity whose display name matches Edenmakers.
-- Website, support, privacy and terms URLs. Support is https://edengen.ai/docs/agents. If the form refuses that page, use a dedicated support URL and say so in the takes change list. Do not invent one here.
+- Website, support, privacy and terms URLs. Support is https://edengen.ai/docs/help. Agent setup remains https://edengen.ai/docs/agents.
 - Working OAuth, domain verification, current tool scan.
 - Demo video of an estimate and one cheap generation.
 - Reviewer account with credit and no blocking second factor. Use takes reviewer access (`REVIEWER_ACCESS=1`). Paste the password only into the OpenAI form.

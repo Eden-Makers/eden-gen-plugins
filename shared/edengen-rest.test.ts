@@ -3,6 +3,8 @@ import { test } from "node:test";
 import {
   API_BASE,
   EdenGenClient,
+  FIGMA_REDIRECT,
+  RAYCAST_REDIRECT,
   REST_RESOURCE,
   UPSCALE_MODEL,
   authorizeUrl,
@@ -94,7 +96,9 @@ test("registration is a public client and the code exchange sends the REST resou
   assert.match(calls[1], /code_verifier=verifier/);
 });
 
-test("take page and upscale model stay on the documented ids", () => {
+test("take page and the store redirects stay on the takes URIs", () => {
   assert.equal(takePageUrl("k3m9q2xa"), "https://edengen.ai/app/takes/k3m9q2xa");
   assert.equal(UPSCALE_MODEL, "nano-banana-pro");
+  assert.equal(RAYCAST_REDIRECT, "https://raycast.com/redirect?packageName=Extension");
+  assert.equal(FIGMA_REDIRECT, "https://www.figma.com/oauth/callback");
 });

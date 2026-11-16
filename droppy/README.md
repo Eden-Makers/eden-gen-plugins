@@ -4,7 +4,7 @@ Droppy's current extension format is a Droplet: a Swift package that builds a dy
 
 Checked against DroppyKit 1.23.0 and later. The drop zone uses `onDrop` of file URLs plus `.droppyWidgetDropTarget`, which DroppyKit documents for widgets that take files. A settings pane stores the API token. A short HUD reports the result. `droppy://droplet/eden-gen/reference?path=/absolute/file.png` and `droppy://droplet/eden-gen/upscale?path=...` call the same upload.
 
-Reference mode uploads the image to `POST /v1/assets` and stops. That does not start a paid take. Upscale mode estimates `nano-banana-pro` (it accepts image references and edits) with the saved prompt, then creates one take with `max_cost_usd` set to that estimate. Dedicated Topaz upscale ids in the catalog do not advertise a normal image reference slot, so the default model is Nano Banana Pro. Change the model id in settings if a later catalog row accepts a standard reference.
+Reference mode asks `POST /v1/uploads` for a one-time URL, PUTs the bytes, and stops. That does not start a paid take. A personal token (`tkp_`) from Settings, API and agents needs `uploads:write`. Upscale mode also needs `estimate` and `takes:write`. It estimates `nano-banana-pro` (it accepts image references and edits) with the saved prompt, then creates one take with `max_cost_usd` set to that estimate. Dedicated Topaz upscale ids in the catalog do not advertise a normal image reference slot, so the default model is Nano Banana Pro. Change the model id in settings if a later catalog row accepts a standard reference. Droppy has no OAuth redirect on the takes allowlist. Reviewer store id: `droppy`.
 
 ## Build on a Mac
 

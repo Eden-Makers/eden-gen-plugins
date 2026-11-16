@@ -1,7 +1,7 @@
 {
   "display_information": {
     "name": "Eden Gen",
-    "description": "Estimate and generate images, video and audio in an Eden Gen workspace.",
+    "description": "Show help and the connected workspace balance. Does not spend credit.",
     "background_color": "#111114"
   },
   "features": {
@@ -13,24 +13,21 @@
       {
         "command": "/edengen",
         "url": "https://edengen.ai/api/slack/commands",
-        "description": "Estimate or generate an image, video or audio take",
-        "usage_hint": "image a red lighthouse at dusk",
+        "description": "Help, or the connected workspace balance",
+        "usage_hint": "help | balance",
         "should_escape": false
       }
     ]
   },
   "oauth_config": {
+    "redirect_urls": ["https://edengen.ai/api/slack/oauth"],
     "scopes": {
-      "bot": ["commands", "chat:write"]
+      "bot": ["commands"]
     }
   },
   "settings": {
     "org_deploy_enabled": false,
     "socket_mode_enabled": false,
-    "token_rotation_enabled": false,
-    "interactivity": {
-      "is_enabled": true,
-      "request_url": "https://edengen.ai/api/slack/interactions"
-    }
+    "token_rotation_enabled": false
   }
 }

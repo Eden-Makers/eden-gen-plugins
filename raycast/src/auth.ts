@@ -2,6 +2,7 @@ import { LocalStorage, OAuth, getPreferenceValues } from "@raycast/api";
 import {
   AUTHORIZE_URL,
   OAUTH_SCOPE,
+  RAYCAST_REDIRECT,
   REST_RESOURCE,
   REVOKE_URL,
   exchangeAuthorizationCode,
@@ -9,8 +10,6 @@ import {
   registerPublicClient,
 } from "./lib/edengen-rest";
 
-// Raycast documents this exact redirect for every extension that uses the web method.
-const DOCUMENTED_REDIRECT = "https://raycast.com/redirect?packageName=Extension";
 const CLIENT_KEY = "edengen.oauth.client";
 
 interface StoredClient {
@@ -66,14 +65,14 @@ async function oauthAccessToken(): Promise<string> {
     }
   }
 
-  const clientId = await storedClient(DOCUMENTED_REDIRECT);
+  const clientId = await storedClient(RAYCAST_REDIRECT);
   let request = await client.authorizationRequest({
     endpoint: AUTHORIZE_URL,
     clientId,
     scope: OAUTH_SCOPE,
     extraParameters: { resource: REST_RESOURCE },
   });
-  if (request.redirectURI !== DOCUMENTED_REDIRECT) {
+  if (request.redirectURI !== RAYCAST_REDIRECT) {
     const nextId = await storedClient(request.redirectURI);
     request = await client.authorizationRequest({
       endpoint: AUTHORIZE_URL,

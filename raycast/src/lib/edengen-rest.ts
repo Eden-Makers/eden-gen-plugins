@@ -7,6 +7,22 @@ export const ORIGIN = "https://edengen.ai";
 export const API_BASE = `${ORIGIN}/v1`;
 export const REST_RESOURCE = `${ORIGIN}/v1`;
 export const OAUTH_SCOPE = "takes";
+export const OPENAPI_URL = `${ORIGIN}/openapi.json`;
+export const TOKEN_SETTINGS_URL = `${ORIGIN}/app/settings?tab=api`;
+export const HELP_URL = `${ORIGIN}/docs/help`;
+/** Raycast's documented redirect for every extension. The takes app trusts this exact URI. */
+export const RAYCAST_REDIRECT = "https://raycast.com/redirect?packageName=Extension";
+/** Figma plugin callback the takes app trusts. No other figma.com path is a known client. */
+export const FIGMA_REDIRECT = "https://www.figma.com/oauth/callback";
+/** Scopes stored on a personal token (prefix tkp_) from Settings, API and agents. */
+export const PERSONAL_TOKEN_SCOPES = [
+  "models:read",
+  "takes:read",
+  "takes:write",
+  "estimate",
+  "uploads:write",
+  "account:read",
+] as const;
 export const AUTHORIZE_URL = `${ORIGIN}/oauth/authorize`;
 export const TOKEN_URL = `${ORIGIN}/oauth/token`;
 export const REGISTER_URL = `${ORIGIN}/oauth/register`;
@@ -280,21 +296,25 @@ export class EdenGenClient {
     return this.request<Account>("/account");
   }
 
+  /** One-time upload slot. Personal tokens are allowed: the route scope is uploads:write. */
   async uploadBytes(data: Uint8Array, filename: string): Promise<Asset> {
-    const response = await this.fetchImpl(`${API_BASE}/assets`, {
+    const slot = await this.request<{ upload_url: string; method: "PUT" }>("/uploads", {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${this.token}`,
-        "Content-Type": "application/octet-stream",
-        "X-Filename": encodeURIComponent(filename),
-        Accept: "application/json",
-      },
+      body: { filename },
+    });
+    const response = await this.fetchImpl(slot.upload_url, {
+      method: slot.method,
+      headers: { "Content-Type": "application/octet-stream", Accept: "application/json" },
       body: data as BodyInit,
     });
     if (!response.ok) throw await readError(response);
     return (await response.json()) as Asset;
   }
 
+  /**
+   * Import an https URL. POST /v1/assets does not declare a scope, so a personal token (tkp_) is refused
+   * until takes adds uploads:write on that route. A developer key (tk_, no scope list) still works.
+   */
   uploadUrl(url: string): Promise<Asset> {
     return this.request<Asset>("/assets", { method: "POST", body: { url } });
   }

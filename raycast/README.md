@@ -2,7 +2,7 @@
 
 Commands: Generate Image, Generate Video, Generate Audio, List Models, Recent Takes, Check Balance.
 
-Sign-in is a preference. OAuth uses PKCE S256 against `https://edengen.ai`, dynamic client registration, scope `takes`, and resource `https://edengen.ai/v1` so the token is accepted by the REST API. The web redirect Raycast documents for every extension is `https://raycast.com/redirect?packageName=Extension`. An API token from https://edengen.ai/app/developers also works when Sign-in is set to API token.
+Sign-in is a preference. OAuth uses PKCE S256 against `https://edengen.ai`, dynamic client registration, scope `takes`, resource `https://edengen.ai/v1`, and the redirect `https://raycast.com/redirect?packageName=Extension`. The takes draft already trusts that URI. A personal token from Settings, API and agents (`tkp_`) also works. OpenAPI is https://edengen.ai/openapi.json. Reviewer store id: `raycast`.
 
 Each generate command estimates first, shows the USD total, and creates one take only after that. `aspect_ratio` is always sent. `max_cost_usd` is the estimated total. `confirm_cost` is sent only when the estimate says confirmation is required. Creation uses one new idempotency key and is not retried.
 
@@ -16,7 +16,7 @@ Each generate command estimates first, shows the USD total, and creates one take
 
 ## Review requirements
 
-Raycast reviews the listing, the commands, and that a password preference is used for the token. OAuth must return to Raycast. The consent screen on edengen.ai will say the app is unverified until `raycast.com` is added to `src/lib/oauth-known-clients.ts` in takes. Registration already accepts the https redirect. See `TAKES-CHANGES-NEEDED.md`.
+Raycast reviews the listing, the commands, and that a password preference is used for the token. OAuth must return to `https://raycast.com/redirect?packageName=Extension`. The takes draft already names that host Raycast.
 
 ## Checks run here
 
@@ -24,4 +24,4 @@ Raycast reviews the listing, the commands, and that a password preference is use
 
 ## Human still does
 
-A Raycast publisher account, the author username, screenshots, a trial of OAuth on a Mac, the known-client change in takes if you want the consent screen to name Raycast, and the publish click.
+A Raycast publisher account, the author username, screenshots, a trial of OAuth on a Mac, and the publish click. Reviewer store id: `raycast`.

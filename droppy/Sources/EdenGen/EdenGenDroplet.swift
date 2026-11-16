@@ -186,7 +186,7 @@ struct EdenGenSettings: View {
             } content: {
                 DropletSettingsCard {
                     SecureField("API token", text: droplet.tokenBinding)
-                    Text("Create a token at edengen.ai/app/developers. It stays in this droplet's preferences.")
+                    Text("Personal token from Settings, API and agents. It starts with tkp_ and needs uploads:write, estimate, and takes:write for an upscale.")
                 }
             }
             DropletSettingsSection {
@@ -237,11 +237,13 @@ private enum EdenGenAPI {
     }
 
     static func upload(data: Data, filename: String, token: String) async throws -> String {
-        var request = URLRequest(url: URL(string: "https://edengen.ai/v1/assets")!)
-        request.httpMethod = "POST"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        let slot = try await post(path: "/uploads", payload: ["filename": filename], token: token, idempotency: nil)
+        guard let uploadURL = slot["upload_url"] as? String, let url = URL(string: uploadURL) else {
+            throw URLError(.badURL)
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = (slot["method"] as? String) ?? "PUT"
         request.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
-        request.setValue(filename.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "image.png", forHTTPHeaderField: "X-Filename")
         request.httpBody = data
         let body = try await send(request)
         guard let id = body["id"] as? String else { throw URLError(.cannotParseResponse) }

@@ -1,11 +1,11 @@
 # Eden Gen Slack app
 
-`manifest.json` is a Slack app manifest for a bot and the `/edengen` slash command. `TAKES-ENDPOINTS.md` is the spec for the routes that must be built in the takes repository. This repository does not run a Slack server and does not create a Slack app.
+`manifest.json` matches the takes draft: bot scope `commands`, slash command `POST https://edengen.ai/api/slack/commands`, redirect `https://edengen.ai/api/slack/oauth`. `/edengen` shows help and the connected balance. It does not spend credit. The routes exist in takes pull request 67 and stay off until `SLACK_APP_ENABLED=1`. This repository does not run them.
 
 ## Submission steps
 
-1. Implement the routes in takes, using `TAKES-ENDPOINTS.md`. Verify Slack signatures. Store tokens hashed or encrypted. Do not log them.
-2. Create a Slack app in the Edenmakers workspace from `manifest.json`. Slack will show the client id and signing secret once. Put them in the takes secret store.
+1. Deploy takes pull request 67 when you mean to. The routes are already specified in `TAKES-ENDPOINTS.md`.
+2. Create a Slack app in the Edenmakers workspace from `manifest.json`. Put `SLACK_CLIENT_ID`, `SLACK_CLIENT_SECRET`, and `SLACK_SIGNING_SECRET` in the takes secret store, then set `SLACK_APP_ENABLED=1`. Reviewer store id: `slack`.
 3. Install the app to a test workspace, connect a member with `/edengen connect`, run `/edengen image` through estimate and one approved cheap take.
 4. If you want the app in the Slack Marketplace, use the Slack Marketplace form: privacy https://edengen.ai/privacy, support support@edengen.ai, a demo video of `/edengen`, and screenshots of the estimate and the result.
 

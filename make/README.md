@@ -1,6 +1,6 @@
 # Eden Gen on Make
 
-`app.json` is a custom-app sketch: an API token connection and three modules (estimate, create, get). `blueprint.json` is a scenario that estimates, creates only when `can_run` is true, and then fetches the take. Make's importer is stricter than this sketch. Treat the JSON as the contract to rebuild in the Make apps editor, not as a file Make is guaranteed to import unchanged.
+`app.json` is a custom-app sketch: a personal token (`tkp_`) from Settings, API and agents, and three modules (estimate, create, get). OpenAPI: https://edengen.ai/openapi.json. `blueprint.json` is a scenario that estimates, creates only when `can_run` is true, and then fetches the take. Make's importer is stricter than this sketch. Treat the JSON as the contract to rebuild in the Make apps editor, not as a file Make is guaranteed to import unchanged.
 
 ## Submission steps
 

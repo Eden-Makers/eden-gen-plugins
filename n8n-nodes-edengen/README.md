@@ -1,6 +1,6 @@
 # n8n-nodes-edengen
 
-Community node package for Eden Gen. Operations: Estimate, Create Take, Get Take. The credential is an API token sent as `Authorization: Bearer`.
+Community node package for Eden Gen. Operations: Estimate, Create Take, Get Take. The credential is a personal token (`tkp_`) from Settings, API and agents, sent as `Authorization: Bearer`. OpenAPI: https://edengen.ai/openapi.json. Reviewer store id: `n8n`.
 
 Create sends `aspect_ratio`, `count: 1`, one `Idempotency-Key`, and `confirm_cost` only when the boolean is on. Set Max cost from a previous Estimate node (`usd_total`) so the create cannot drift above the price you saw.
 

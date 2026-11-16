@@ -2,7 +2,7 @@
 
 Generate an image into the current selection, or into a new frame when nothing paintable is selected. The UI loads image models, lets you pick format and resolution, and shows an estimate before Generate.
 
-Auth is an API token from https://edengen.ai/app/developers, saved with `figma.clientStorage`. Figma's plugin UI is an iframe, so OAuth redirect is a poor fit and is not implemented.
+Auth is a personal token (`tkp_`) from Settings, API and agents, saved with `figma.clientStorage`. Sign in uses OAuth PKCE and the redirect `https://www.figma.com/oauth/callback`. Paste that callback address back into the plugin. The desktop app does not return `window.opener`, so the paste step is the path that works in both the browser and the desktop app. The access token is for resource `https://edengen.ai/v1` and lasts about an hour. A personal token does not.
 
 ## Build
 
@@ -14,11 +14,11 @@ npm run build
 
 `build` writes `code.js` and `ui.js` next to `manifest.json`. In Figma: Plugins, Development, Import plugin from manifest, choose `figma/manifest.json`.
 
-## Why generation can fail until takes changes
+## What still fails after the takes draft
 
-The plugin UI calls `https://edengen.ai/v1` with `fetch`. A live check on 2026-11-16 showed `/v1` responses do not send `Access-Control-Allow-Origin`. The Figma iframe cannot read them until takes adds that header. The finished file is fetched from its output URL, which also has to allow the plugin origin. Both are specified in `TAKES-CHANGES-NEEDED.md`.
+Draft takes pull request 67 allows `https://figma.com` and `https://*.figma.com` on the token routes (`/v1/models`, `/v1/estimate`, `/v1/takes`, `/v1/account`). That is not on production until the draft is deployed. The finished file is a redirect to a signed media URL. That host does not send CORS for Figma, so placing the pixels still needs the change in `TAKES-CHANGES-NEEDED.md`.
 
-`networkAccess.allowedDomains` already lists `edengen.ai`, `media.edengen.ai` and `*.r2.cloudflarestorage.com`.
+`networkAccess.allowedDomains` lists `edengen.ai`, `media.edengen.ai` and `*.r2.cloudflarestorage.com`. Reviewer store id: `figma`.
 
 ## Store submission
 
