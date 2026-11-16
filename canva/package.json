@@ -1,0 +1,24 @@
+{
+  "name": "edengen-canva",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Eden Gen app for Canva. Generates an image or video into the design.",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "tsc --noEmit -p tsconfig.json",
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "@canva/app-ui-kit": "^5.15.0",
+    "@canva/asset": "^2.4.0",
+    "@canva/design": "^2.14.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.9.3"
+  }
+}

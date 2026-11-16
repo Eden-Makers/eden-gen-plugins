@@ -1,0 +1,57 @@
+:root {
+  color: #1a1a1e;
+  font: 14px/1.4 "Satoshi", "Segoe UI", sans-serif;
+  background: #fafafa;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+button {
+  background: #fff;
+  color: #111114;
+  border: 1px solid #f7c04a;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.error {
+  color: #e9512c;
+}
+
+.note {
+  color: #444;
+}

@@ -1,0 +1,17 @@
+{
+  "name": "edengen-notion",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Eden Gen image into a Notion page, plus the custom MCP path.",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "tsc --noEmit -p tsconfig.json",
+    "test": "node --experimental-strip-types --test src/notion.test.ts",
+    "start": "node --experimental-strip-types src/cli.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "typescript": "^5.9.3"
+  }
+}

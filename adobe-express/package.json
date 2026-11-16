@@ -1,0 +1,15 @@
+{
+  "name": "edengen-adobe-express",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Eden Gen add-on for Adobe Express. Generates an image and inserts it.",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "tsc --noEmit -p tsconfig.json",
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "typescript": "^5.9.3"
+  }
+}

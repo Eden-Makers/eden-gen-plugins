@@ -1,0 +1,15 @@
+{
+  "name": "edengen-webflow",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Eden Gen Designer Extension for Webflow. Generates an image onto the canvas.",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "tsc --noEmit -p tsconfig.json",
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "typescript": "^5.9.3"
+  }
+}

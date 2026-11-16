@@ -1,0 +1,22 @@
+{
+  "name": "edengen-rest",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Eden Gen /v1 client for wave 2 plugins. No runtime dependencies.",
+  "exports": {
+    ".": "./edengen-rest.ts",
+    "./oauth-loopback": "./oauth-loopback.ts"
+  },
+  "scripts": {
+    "test": "node --experimental-strip-types --test edengen-rest.test.ts oauth-loopback.test.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
