@@ -1,0 +1,20 @@
+{
+  "name": "edengen-discord",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Eden Gen Discord bot. /imagine estimates, confirms, and posts the file.",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "tsc --noEmit -p tsconfig.json",
+    "test": "node --experimental-strip-types --test src/pending.test.ts src/store.test.ts",
+    "start": "node --experimental-strip-types src/index.ts"
+  },
+  "dependencies": {
+    "discord.js": "^14.28.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "typescript": "^5.9.3"
+  }
+}

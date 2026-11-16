@@ -4,3 +4,15 @@ dist/
 *.tsbuildinfo
 raycast-env.d.ts
 .DS_Store
+.env
+.env.*
+__pycache__/
+.venv/
+*.pyc
+data/
+*.log
+.gradle/
+build/
+out/
+.idea/
+vendor/
