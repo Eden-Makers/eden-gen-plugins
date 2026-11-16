@@ -3,7 +3,17 @@
   "mcpServers": {
     "eden-gen": {
       "type": "streamable-http",
-      "url": "https://edengen.ai/mcp"
+      "url": "https://edengen.ai/mcp",
+      "extensions": {
+        "com.openai": {
+          "auth": {
+            "type": "oauth",
+            "client": {
+              "mode": "dcr"
+            }
+          }
+        }
+      }
     }
   }
 }
