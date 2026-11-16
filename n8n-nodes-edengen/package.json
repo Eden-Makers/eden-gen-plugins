@@ -1,0 +1,24 @@
+{
+  "name": "n8n-nodes-edengen",
+  "version": "0.1.0",
+  "description": "Create and fetch Eden Gen takes from n8n. Not published.",
+  "license": "MIT",
+  "author": "Edenmakers <support@edengen.ai>",
+  "homepage": "https://edengen.ai",
+  "keywords": ["n8n-community-node-package", "eden-gen"],
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "files": ["dist"],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": ["dist/credentials/EdenGenApi.credentials.js"],
+    "nodes": ["dist/nodes/EdenGen/EdenGen.node.js"]
+  },
+  "devDependencies": {
+    "n8n-workflow": "^1.82.0",
+    "typescript": "^5.7.3"
+  }
+}

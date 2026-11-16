@@ -1,0 +1,8 @@
+{
+  "context_servers": {
+    "eden-gen": {
+      "url": "https://edengen.ai/mcp",
+      "enabled": true
+    }
+  }
+}

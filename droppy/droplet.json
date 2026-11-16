@@ -1,0 +1,24 @@
+{
+  "id": "eden-gen",
+  "name": "Eden Gen",
+  "version": "0.1.0",
+  "summary": "Drop an image, send it to Eden Gen",
+  "description": "Drop an image on the shelf widget. Eden Gen stores it as a reference, or estimates and starts one upscale take with Nano Banana Pro.\n\nAn API token from the Eden Gen developers page is required. The droplet does not ship a token.",
+  "category": "Productivity",
+  "kit": { "abi": 1, "minAPI": "1.23.0" },
+  "minAppVersion": "15.3.0",
+  "capabilities": ["network-client", "hud", "shelf-read"],
+  "surfaces": ["shelf-widget", "settings-pane", "hud"],
+  "icon": "EdenGen.icon",
+  "creator": {
+    "name": "Edenmakers",
+    "kind": "community",
+    "url": "https://edengen.ai",
+    "avatar": "Creator.png"
+  },
+  "source": {
+    "repository": "https://github.com/Eden-Makers/eden-gen-plugins",
+    "license": "MIT"
+  },
+  "keywords": ["image", "ai", "upscale", "reference", "eden"]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "eden-gen",
+  "type": "mcp",
+  "name": "Eden Gen",
+  "tagline": "Images, video and audio with a price before every take",
+  "description": "Remote Eden Gen MCP server. OAuth 2.1 with dynamic client registration, PKCE S256, scope takes.",
+  "author": { "name": "Edenmakers", "url": "https://edengen.ai" },
+  "homepage": "https://edengen.ai",
+  "repo": "https://github.com/Eden-Makers/eden-gen-plugins",
+  "license": "MIT",
+  "tags": ["media"],
+  "install": {
+    "command": "cline mcp install eden-gen --transport http https://edengen.ai/mcp",
+    "args": ["eden-gen", "--transport", "http", "https://edengen.ai/mcp"]
+  }
+}

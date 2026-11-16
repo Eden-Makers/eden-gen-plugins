@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Eden Gen image</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1><img class="mark" src="icons/icon48.png" alt="" />Image</h1>
+      <p class="lead" id="lead">Send this image to Eden Gen.</p>
+    </header>
+    <main>
+      <img class="preview" id="preview" alt="Selected image" />
+      <label>Prompt<textarea id="prompt"></textarea></label>
+      <label>Model<select id="model"></select></label>
+      <div class="price" id="price">A reference upload does not spend credit. Edit and upscale do.</div>
+      <p class="error" id="error"></p>
+      <div class="row">
+        <button class="ghost" id="save" type="button">Save as reference</button>
+        <button id="run" type="button">Estimate and generate</button>
+      </div>
+    </main>
+    <script type="module" src="editor.js"></script>
+  </body>
+</html>

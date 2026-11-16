@@ -1,0 +1,69 @@
+{
+  "name": "edengen",
+  "label": "Eden Gen",
+  "description": "Estimate and create images, video and audio in an Eden Gen workspace.",
+  "version": "0.1.0",
+  "theme": "#e9512c",
+  "base": {
+    "baseUrl": "https://edengen.ai/v1",
+    "headers": {
+      "Authorization": "Bearer {{connection.apiToken}}",
+      "Accept": "application/json"
+    }
+  },
+  "connections": [
+    {
+      "name": "apiToken",
+      "label": "API token",
+      "type": "basic",
+      "parameters": [
+        {
+          "name": "apiToken",
+          "label": "API token",
+          "type": "password",
+          "help": "From https://edengen.ai/app/developers. Starts with tk_."
+        }
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "name": "estimateTake",
+      "label": "Estimate a take",
+      "description": "Price a run without spending.",
+      "action": "POST /estimate",
+      "parameters": [
+        { "name": "model", "type": "text", "required": true, "label": "Model" },
+        { "name": "prompt", "type": "text", "required": true, "label": "Prompt" },
+        { "name": "aspect_ratio", "type": "text", "required": true, "label": "Format", "default": "16:9" }
+      ],
+      "body": {
+        "model": "{{parameters.model}}",
+        "prompt": "{{parameters.prompt}}",
+        "aspect_ratio": "{{parameters.aspect_ratio}}",
+        "count": 1
+      }
+    },
+    {
+      "name": "createTake",
+      "label": "Create a take",
+      "description": "Create one take. Pass confirm_cost only after the estimate is accepted. Send a fresh Idempotency-Key.",
+      "action": "POST /takes",
+      "parameters": [
+        { "name": "model", "type": "text", "required": true, "label": "Model" },
+        { "name": "prompt", "type": "text", "required": true, "label": "Prompt" },
+        { "name": "aspect_ratio", "type": "text", "required": true, "label": "Format", "default": "16:9" },
+        { "name": "confirm_cost", "type": "boolean", "label": "Confirm cost", "default": false },
+        { "name": "max_cost_usd", "type": "number", "label": "Max cost USD" },
+        { "name": "idempotency_key", "type": "text", "required": true, "label": "Idempotency key" }
+      ]
+    },
+    {
+      "name": "getTake",
+      "label": "Get a take",
+      "description": "Fetch one take by id.",
+      "action": "GET /takes/{{parameters.take_id}}",
+      "parameters": [{ "name": "take_id", "type": "text", "required": true, "label": "Take ID" }]
+    }
+  ]
+}

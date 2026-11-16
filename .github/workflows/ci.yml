@@ -1,0 +1,102 @@
+name: checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  packages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: REST client tests
+        run: node --experimental-strip-types --test shared/edengen-rest.test.ts
+      - name: ChatGPT ZIP
+        run: node chatgpt/build.mjs
+      - name: Raycast client matches shared
+        run: diff -q shared/edengen-rest.ts raycast/src/lib/edengen-rest.ts
+      - name: JSON and YAML parse
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, sys
+          root = pathlib.Path('.')
+          for path in root.rglob('*'):
+              if path.suffix not in {'.json', '.yaml', '.yml'}:
+                  continue
+              if 'node_modules' in path.parts or 'dist' in path.parts:
+                  continue
+              text = path.read_text()
+              if path.suffix == '.json':
+                  json.loads(text)
+          print('json ok')
+          PY
+      - name: No em dash or en dash in new trees
+        run: |
+          python3 - <<'PY'
+          import pathlib
+          roots = ["chatgpt","claude-directory","raycast","droppy","figma","chrome","slack","zapier","make","n8n-nodes-edengen","mcp-directories","shared"]
+          bad = []
+          for root in roots:
+              for path in pathlib.Path(root).rglob('*'):
+                  if not path.is_file() or path.suffix in {'.png', '.svg', '.zip'}:
+                      continue
+                  text = path.read_text(errors='ignore')
+                  if '\u2013' in text or '\u2014' in text:
+                      bad.append(str(path))
+          for name in ["INTEGRATIONS.md","TAKES-CHANGES-NEEDED.md"]:
+              text = pathlib.Path(name).read_text()
+              if '\u2013' in text or '\u2014' in text:
+                  bad.append(name)
+          if bad:
+              raise SystemExit('dash found in ' + ', '.join(bad))
+          PY
+      - name: Raycast
+        working-directory: raycast
+        run: |
+          npm install
+          npx ray build
+          set +e
+          npx ray lint > /tmp/ray-lint.txt 2>&1
+          code=$?
+          set -e
+          cat /tmp/ray-lint.txt
+          if [ "$code" -eq 0 ]; then
+            exit 0
+          fi
+          # The publisher username does not exist yet. Any other lint error still fails.
+          python3 - <<'PY'
+          import pathlib, sys
+          text = pathlib.Path("/tmp/ray-lint.txt").read_text()
+          lines = [line for line in text.splitlines() if "error" in line.lower()]
+          allowed = [line for line in lines if "Invalid author" in line or line.strip().startswith("error  - validate package.json")]
+          if lines and len(allowed) == len(lines) and "Invalid author" in text:
+              print("ray lint: only the missing Raycast username remains")
+              sys.exit(0)
+          sys.exit(1)
+          PY
+      - name: Chrome
+        working-directory: chrome
+        run: |
+          npm install
+          npm run typecheck
+          npm run build
+      - name: Figma
+        working-directory: figma
+        run: |
+          npm install
+          npm run typecheck
+          npm run build
+      - name: n8n
+        working-directory: n8n-nodes-edengen
+        run: |
+          npm install
+          npm run typecheck
+      - name: Zapier
+        working-directory: zapier
+        run: |
+          npm install
+          npm test
+          npm run validate

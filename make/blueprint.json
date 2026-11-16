@@ -1,0 +1,35 @@
+{
+  "name": "Eden Gen: estimate, then create one image",
+  "flow": [
+    {
+      "id": 1,
+      "module": "edengen:estimateTake",
+      "mapper": {
+        "model": "nano-banana-2.1",
+        "prompt": "A red lighthouse at dusk, film still, no text",
+        "aspect_ratio": "16:9"
+      }
+    },
+    {
+      "id": 2,
+      "module": "edengen:createTake",
+      "filter": {
+        "name": "only when the estimate can run",
+        "conditions": [[{ "a": "{{1.can_run}}", "o": "boolean:equal", "b": true }]]
+      },
+      "mapper": {
+        "model": "{{1.model}}",
+        "prompt": "A red lighthouse at dusk, film still, no text",
+        "aspect_ratio": "{{1.aspect_ratio}}",
+        "confirm_cost": "{{1.needs_confirmation}}",
+        "max_cost_usd": "{{1.usd_total}}",
+        "idempotency_key": "{{uuid}}"
+      }
+    },
+    {
+      "id": 3,
+      "module": "edengen:getTake",
+      "mapper": { "take_id": "{{2.id}}" }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "eden_gen",
+  "displayName": "Eden Gen",
+  "description": "Price and generate images, video and audio in an Eden Gen workspace.",
+  "auth": {
+    "mode": "OAUTH2",
+    "authorizationUrl": "https://edengen.ai/oauth/authorize",
+    "tokenUrl": "https://edengen.ai/oauth/token",
+    "scope": "takes",
+    "pkce": true,
+    "dynamicClientRegistration": "https://edengen.ai/oauth/register",
+    "resource": "https://edengen.ai/mcp"
+  },
+  "docs": "https://edengen.ai/docs/agents",
+  "privacy": "https://edengen.ai/privacy",
+  "categories": ["media"]
+}

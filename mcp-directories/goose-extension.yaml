@@ -1,0 +1,8 @@
+extensions:
+  eden-gen:
+    enabled: true
+    type: streamable_http
+    name: Eden Gen
+    description: Generate images, video and audio with a price estimate before every take.
+    uri: https://edengen.ai/mcp
+    timeout: 300
