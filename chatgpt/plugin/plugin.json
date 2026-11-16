@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "eden-gen",
-  "version": "0.2.0",
-  "description": "Generate images, video and audio in an Eden Gen workspace. Every paid take is estimated first, and a project budget holds.",
+  "version": "0.2.1",
+  "description": "Generate images, video and audio in an Eden Gen workspace. Every take is estimated first, and a project budget holds.",
   "author": {
     "name": "Edenmakers",
     "email": "support@edengen.ai",
@@ -11,16 +11,24 @@
   "homepage": "https://edengen.ai",
   "repository": "https://github.com/Eden-Makers/eden-gen-plugins",
   "license": "MIT",
-  "keywords": ["image", "video", "audio", "generation"],
+  "keywords": [
+    "image",
+    "video",
+    "audio",
+    "generation"
+  ],
   "extensions": {
     "com.openai": {
       "interface": {
         "displayName": "Eden Gen",
         "shortDescription": "Price and generate media",
-        "longDescription": "Eden Gen generates images, video and audio for a signed-in workspace. The assistant lists models, shows a USD estimate, and starts one take only after that price is acceptable. Runs above the workspace confirmation threshold wait for an explicit yes. Failed takes are refunded. Outputs and uploads are stored for the workspace. ChatGPT does not take payment; credit is spent in Eden Gen.",
+        "longDescription": "Eden Gen generates images, video and audio for a signed-in workspace. The assistant lists models, shows the exact cost of a take before it starts one, and waits for an explicit yes above the workspace confirmation threshold. Failed takes are refunded in the workspace. Outputs and uploads are stored for the workspace. ChatGPT does not take payment.",
         "developerName": "Edenmakers",
         "category": "Creativity",
-        "capabilities": ["Read", "Write"],
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
         "websiteURL": "https://edengen.ai",
         "supportURL": "https://edengen.ai/docs/help",
         "privacyPolicyURL": "https://edengen.ai/privacy",
