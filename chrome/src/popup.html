@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Eden Gen</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1><img class="mark" src="icons/icon48.png" alt="" />Eden Gen</h1>
+      <p class="lead">Estimate a still, then generate one take.</p>
+    </header>
+    <main>
+      <label>Prompt<textarea id="prompt" placeholder="A red lighthouse at dusk, film still, no text"></textarea></label>
+      <label>Model<select id="model"></select></label>
+      <label>Format<select id="aspect"><option>16:9</option><option>9:16</option><option>1:1</option></select></label>
+      <div class="price" id="price">Estimate before generating. One accepted take cannot be cancelled.</div>
+      <p class="error" id="error"></p>
+      <div class="row">
+        <button class="ghost" id="estimate" type="button">Estimate</button>
+        <button id="generate" type="button">Generate</button>
+      </div>
+      <a class="button ghost" href="options.html">Sign in</a>
+    </main>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

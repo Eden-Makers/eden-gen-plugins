@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Eden Gen</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #111114;
+        --ink: #f4f1ea;
+        --muted: #a39c93;
+        --line: rgba(255, 255, 255, 0.12);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Satoshi", "Avenir Next", "Segoe UI", sans-serif;
+      }
+      header {
+        padding: 16px;
+        background: linear-gradient(120deg, rgba(247, 192, 74, 0.22), rgba(233, 81, 44, 0.08) 60%, transparent);
+        border-bottom: 1px solid var(--line);
+      }
+      h1 {
+        margin: 0;
+        font-family: "Tomato Grotesk", "Satoshi", "Avenir Next", sans-serif;
+        font-weight: 500;
+        font-size: 22px;
+      }
+      p { color: var(--muted); font-size: 12px; }
+      main { padding: 16px; display: grid; gap: 10px; }
+      label { display: grid; gap: 6px; font-size: 12px; color: var(--muted); }
+      input, select, textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        background: #18181c;
+        color: var(--ink);
+        border-radius: 10px;
+        padding: 8px 10px;
+        font: inherit;
+      }
+      textarea { min-height: 88px; }
+      button {
+        border: 0;
+        border-radius: 999px;
+        padding: 10px 12px;
+        background: #fff;
+        color: #111114;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+      .row { display: flex; gap: 8px; }
+      .row > * { flex: 1; }
+      .price {
+        border-radius: 12px;
+        padding: 12px;
+        background: linear-gradient(135deg, rgba(247, 192, 74, 0.16), rgba(233, 81, 44, 0.12));
+        font-size: 13px;
+      }
+      .error { color: #ffb4a8; min-height: 1em; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Eden Gen</h1>
+      <p>Pick a model, see the price, then place one image in the selection or a new frame.</p>
+    </header>
+    <main>
+      <label>Personal token<input id="token" type="password" autocomplete="off" placeholder="tkp_..." /></label>
+      <p>Create it in Settings, API and agents. Or sign in. The redirect is https://www.figma.com/oauth/callback.</p>
+      <div class="row">
+        <button class="ghost" id="save" type="button">Save token</button>
+        <button class="ghost" id="models" type="button">Load models</button>
+      </div>
+      <div class="row">
+        <button class="ghost" id="signin" type="button">Sign in with Eden Gen</button>
+      </div>
+      <label>Callback address<textarea id="callback" placeholder="Paste the https://www.figma.com/oauth/callback?... address"></textarea></label>
+      <button class="ghost" id="finish" type="button">Finish sign-in</button>
+      <label>Prompt<textarea id="prompt" placeholder="A red lighthouse at dusk, film still, no text"></textarea></label>
+      <label>Model<select id="model"></select></label>
+      <label>Format<select id="aspect"><option>16:9</option><option>9:16</option><option>1:1</option></select></label>
+      <label>Resolution<select id="resolution"></select></label>
+      <div class="price" id="price">Estimate before generating. The plugin does not start a take until you confirm that price.</div>
+      <p class="error" id="error"></p>
+      <div class="row">
+        <button class="ghost" id="estimate" type="button">Estimate</button>
+        <button id="generate" type="button">Generate</button>
+      </div>
+    </main>
+    <script src="ui.js"></script>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "edengen-figma",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build": "node build.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.110.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "Eden Gen",
+  "slug": "eden-gen",
+  "description": "Generate images, video and audio with a price estimate and project budget controls.",
+  "serverUrl": "https://edengen.ai/mcp",
+  "transport": "streamable-http",
+  "repository": "https://github.com/Eden-Makers/eden-gen-plugins",
+  "homepage": "https://edengen.ai",
+  "documentation": "https://edengen.ai/docs/agents",
+  "privacy": "https://edengen.ai/privacy",
+  "auth": "oauth2.1-dcr-pkce",
+  "scope": "takes",
+  "categories": ["image", "video", "audio"]
+}

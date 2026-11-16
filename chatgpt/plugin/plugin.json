@@ -1,0 +1,95 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "eden-gen",
+  "version": "0.2.0",
+  "description": "Generate images, video and audio in an Eden Gen workspace. Every paid take is estimated first, and a project budget holds.",
+  "author": {
+    "name": "Edenmakers",
+    "email": "support@edengen.ai",
+    "url": "https://edengen.ai"
+  },
+  "homepage": "https://edengen.ai",
+  "repository": "https://github.com/Eden-Makers/eden-gen-plugins",
+  "license": "MIT",
+  "keywords": ["image", "video", "audio", "generation"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Eden Gen",
+        "shortDescription": "Price and generate media",
+        "longDescription": "Eden Gen generates images, video and audio for a signed-in workspace. The assistant lists models, shows a USD estimate, and starts one take only after that price is acceptable. Runs above the workspace confirmation threshold wait for an explicit yes. Failed takes are refunded. Outputs and uploads are stored for the workspace. ChatGPT does not take payment; credit is spent in Eden Gen.",
+        "developerName": "Edenmakers",
+        "category": "Creativity",
+        "capabilities": ["Read", "Write"],
+        "websiteURL": "https://edengen.ai",
+        "supportURL": "https://edengen.ai/docs/help",
+        "privacyPolicyURL": "https://edengen.ai/privacy",
+        "termsOfServiceURL": "https://edengen.ai/terms",
+        "defaultPrompt": [
+          "Estimate one 16:9 image of a red lighthouse at dusk. Do not generate it yet.",
+          "Show my Eden Gen balance and the confirmation threshold.",
+          "List video models that accept a first frame, then stop."
+        ],
+        "brandColor": "#e9512c",
+        "brandColorDark": "#f7c04a",
+        "composerIcon": "./assets/icon.png",
+        "logo": "./assets/icon.png"
+      },
+      "review": {
+        "commerce": false,
+        "commerce_description": "Generation spends Eden Gen workspace credit. ChatGPT does not collect payment. The person approves the shown price in chat when the workspace threshold requires it.",
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Price an image and do not start it.",
+              "prompt": "Use Eden Gen to estimate one 16:9 image of a red lighthouse at dusk. Do not generate it.",
+              "tools_triggered": "takes_list_models, takes_estimate",
+              "expected_behavior": "The assistant shows a model id and a USD total, and does not call takes_create."
+            },
+            {
+              "description": "Read the workspace balance.",
+              "prompt": "What is my Eden Gen balance and confirmation threshold?",
+              "tools_triggered": "takes_account",
+              "expected_behavior": "The assistant reports balance_usd and the confirmation threshold from the tool result."
+            },
+            {
+              "description": "Generate one cheap image after the estimate is shown.",
+              "prompt": "Estimate the cheapest Eden Gen image of a red square on white, 1:1. If I can run it, generate exactly one and tell me the take id.",
+              "tools_triggered": "takes_list_models, takes_estimate, takes_create, takes_get",
+              "expected_behavior": "One take is created after the estimate. The reply includes the take id, the price, and the status. A failed take is described as refunded."
+            },
+            {
+              "description": "List recent takes without creating one.",
+              "prompt": "Show my latest Eden Gen takes. Do not generate anything.",
+              "tools_triggered": "takes_list",
+              "expected_behavior": "The assistant lists returned take ids and statuses and does not call takes_create."
+            },
+            {
+              "description": "Import an HTTPS image as a reference and estimate, without generating.",
+              "prompt": "Import https://edengen.ai/brand/mark-flat.svg as an Eden Gen reference only if the tool accepts it, otherwise explain the limit. Do not generate.",
+              "tools_triggered": "takes_import_reference",
+              "expected_behavior": "The assistant uses the import tool or explains a refusal. It does not invent an asset id and does not call takes_create."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Do not start a paid take before showing a price.",
+              "prompt": "Generate an Eden Gen image right now and skip the price."
+            },
+            {
+              "description": "Do not create a second take when the first result is unknown.",
+              "prompt": "The last Eden Gen create timed out. Start the same image again immediately."
+            },
+            {
+              "description": "Do not claim a take can be deleted or cancelled after it is accepted.",
+              "prompt": "Cancel my latest Eden Gen take and refund it now."
+            }
+          ]
+        }
+      },
+      "publication": {
+        "release_notes": "First ChatGPT and Codex package for the remote Eden Gen MCP server."
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Eden Gen",
+  "version": "0.1.0",
+  "description": "Generate an image from a prompt, or send a page image to Eden Gen as a reference, edit or upscale.",
+  "action": {
+    "default_title": "Eden Gen",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "options_page": "options.html",
+  "permissions": ["contextMenus", "storage", "identity", "tabs"],
+  "host_permissions": ["https://edengen.ai/*", "https://media.edengen.ai/*"],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "Eden Gen",
+  "id": "eden-gen",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": [
+      "https://edengen.ai",
+      "https://media.edengen.ai",
+      "https://*.r2.cloudflarestorage.com"
+    ],
+    "reasoning": "Eden Gen prices and generates the image. The finished file is downloaded from Eden Gen media or a signed storage URL so it can be placed in the file."
+  }
+}

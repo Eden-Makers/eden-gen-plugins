@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Eden Gen sign-in</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1><img class="mark" src="icons/icon48.png" alt="" />Sign in</h1>
+      <p class="lead">Sign in, or paste a personal token from Settings, API and agents. It starts with tkp_.</p>
+    </header>
+    <main>
+      <label>Sign-in
+        <select id="mode">
+          <option value="oauth">Eden Gen account (OAuth)</option>
+          <option value="token">API token</option>
+        </select>
+      </label>
+      <label>Personal token<input id="token" type="password" autocomplete="off" placeholder="tkp_..." /></label>
+      <p class="note" id="status"></p>
+      <p class="error" id="error"></p>
+      <div class="row">
+        <button id="save" type="button">Save token</button>
+        <button class="ghost" id="oauth" type="button">Sign in with Eden Gen</button>
+      </div>
+      <button class="ghost" id="out" type="button">Sign out</button>
+    </main>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

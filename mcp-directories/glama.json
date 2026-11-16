@@ -1,0 +1,5 @@
+{
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "maintainers": ["Eden-Makers"],
+  "repository": "https://github.com/Eden-Makers/eden-gen-plugins"
+}

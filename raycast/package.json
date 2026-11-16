@@ -1,0 +1,86 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "edengen",
+  "title": "Eden Gen",
+  "description": "Generate images, video and audio with a price shown before every take",
+  "icon": "icon.png",
+  "author": "edenmakers",
+  "license": "MIT",
+  "categories": ["Media"],
+  "commands": [
+    {
+      "name": "generate-image",
+      "title": "Generate Image",
+      "description": "Estimate, then generate an image from a prompt",
+      "mode": "view"
+    },
+    {
+      "name": "generate-video",
+      "title": "Generate Video",
+      "description": "Estimate, then generate a video from a prompt",
+      "mode": "view"
+    },
+    {
+      "name": "generate-audio",
+      "title": "Generate Audio",
+      "description": "Estimate, then generate audio from a prompt",
+      "mode": "view"
+    },
+    {
+      "name": "list-models",
+      "title": "List Models",
+      "description": "Browse Eden Gen image, video and audio models",
+      "mode": "view"
+    },
+    {
+      "name": "recent-takes",
+      "title": "Recent Takes",
+      "description": "Show the latest takes in your workspace",
+      "mode": "view"
+    },
+    {
+      "name": "check-balance",
+      "title": "Check Balance",
+      "description": "Show workspace credit and the confirmation threshold",
+      "mode": "view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "authMode",
+      "title": "Sign-in",
+      "description": "OAuth opens edengen.ai. An API token from the developers page also works.",
+      "type": "dropdown",
+      "required": true,
+      "default": "oauth",
+      "data": [
+        { "title": "Eden Gen account (OAuth)", "value": "oauth" },
+        { "title": "API token", "value": "token" }
+      ]
+    },
+    {
+      "name": "apiToken",
+      "title": "API token",
+      "description": "Personal token from Settings, API and agents. It starts with tkp_. Needs models:read, estimate, takes:write, takes:read, and account:read.",
+      "type": "password",
+      "required": false
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^2.12.1",
+    "@raycast/utils": "^2.2.0"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.0.0",
+    "@types/node": "^22.13.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.3"
+  },
+  "scripts": {
+    "build": "ray build",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint"
+  }
+}

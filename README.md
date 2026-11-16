@@ -46,6 +46,19 @@ gemini extensions install https://github.com/Eden-Makers/eden-gen-plugins
 | `plugins/cursor` | Cursor plugin |
 | `gemini-extension.json`, `GEMINI.md`, `skills/` | Gemini CLI extension |
 | `server.json` | Official MCP Registry entry `ai.edengen/eden-gen` |
+| `chatgpt/` | ChatGPT and Codex directory ZIP (`node chatgpt/build.mjs`) |
+| `claude-directory/` | Paste-ready Claude directory submission |
+| `raycast/` | Raycast extension |
+| `droppy/` | Droppy droplet |
+| `figma/` | Figma plugin |
+| `chrome/` | Chrome extension |
+| `slack/` | Slack manifest and the takes endpoint spec |
+| `zapier/`, `make/`, `n8n-nodes-edengen/` | Automation apps |
+| `mcp-directories/` | Smithery, Glama, mcp.so, Composio, Cline, Goose, editor snippets |
+| [INTEGRATIONS.md](INTEGRATIONS.md) | Status of every target |
+| [TAKES-CHANGES-NEEDED.md](TAKES-CHANGES-NEEDED.md) | Server changes that belong in the takes app |
+
+Nothing in the store folders has been submitted. Each folder's README lists the store steps, the review requirements, and what a person still has to do.
 
 ## Support
 

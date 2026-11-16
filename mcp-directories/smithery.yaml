@@ -1,0 +1,19 @@
+version: 1
+name: eden-gen
+displayName: Eden Gen
+description: Generate images, video and audio with a price estimate and project budget controls.
+homepage: https://edengen.ai
+documentation: https://edengen.ai/docs/agents
+icon: https://edengen.ai/brand/mark-flat.svg
+runtime: remote
+remote:
+  transport: streamable-http
+  url: https://edengen.ai/mcp
+auth:
+  type: oauth2
+  authorizationServer: https://edengen.ai
+  protectedResourceMetadata: https://edengen.ai/.well-known/oauth-protected-resource/mcp
+  authorizationServerMetadata: https://edengen.ai/.well-known/oauth-authorization-server
+  pkce: true
+  dynamicClientRegistration: true
+  scope: takes
