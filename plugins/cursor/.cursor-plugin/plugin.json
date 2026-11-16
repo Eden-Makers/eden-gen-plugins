@@ -1,13 +1,26 @@
 {
   "name": "eden-gen",
-  "version": "0.1.0",
-  "description": "Generate images, video and audio with a price estimate and project budget controls.",
+  "version": "0.2.0",
+  "description": "Generate images, video and audio with 200+ models (Seedance, Kling, Veo, Nano Banana, GPT Image, ElevenLabs) from Cursor, with the exact price before every run and a project budget.",
   "author": {
-    "name": "Edenmakers"
+    "name": "Edenmakers",
+    "email": "support@edengen.ai"
   },
   "homepage": "https://edengen.ai",
   "license": "MIT",
   "skills": "./skills/",
   "mcpServers": "./mcp.json",
-  "logo": "./assets/icon.png"
+  "logo": "assets/icon.png",
+  "displayName": "Eden Gen",
+  "keywords": [
+    "image",
+    "video",
+    "audio",
+    "generation",
+    "mcp",
+    "seedance",
+    "kling",
+    "veo",
+    "nano-banana"
+  ]
 }
