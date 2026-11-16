@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "eden-gen",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Generate images, video and audio in an Eden Gen workspace. Every take is estimated first, and a project budget holds.",
   "author": {
     "name": "Edenmakers",
