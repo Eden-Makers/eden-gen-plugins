@@ -25,6 +25,7 @@ Nothing in this table was submitted, published or deployed by this change. "Buil
 | Windsurf, Zed, VS Code snippets | Yes, plus Cursor and VS Code install links in `mcp-directories/README.md` | None for a private install | Paste the snippet or use the deeplink | No |
 | Gemini CLI (`gemini-extension.json`) | Yes, already in the repo | A Gemini CLI user | Install the extension | No |
 | Official MCP registry `ai.edengen/eden-gen` | Already published | Domain proof, already done | Re-publish only if `server.json` changes | Already public. Not part of this change |
+
 <!-- wave-2-additive-section -->
 
 # Wave 2
