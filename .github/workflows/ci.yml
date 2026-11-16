@@ -68,14 +68,25 @@ jobs:
           fi
           # The publisher username does not exist yet. Any other lint error still fails.
           python3 - <<'PY'
-          import pathlib, sys
-          text = pathlib.Path("/tmp/ray-lint.txt").read_text()
-          lines = [line for line in text.splitlines() if "error" in line.lower()]
-          allowed = [line for line in lines if "Invalid author" in line or line.strip().startswith("error  - validate package.json")]
-          if lines and len(allowed) == len(lines) and "Invalid author" in text:
-              print("ray lint: only the missing Raycast username remains")
-              sys.exit(0)
-          sys.exit(1)
+          import pathlib, re, sys
+          text = re.sub(r"\x1b\[[0-9;]*m", "", pathlib.Path("/tmp/ray-lint.txt").read_text(errors="replace"))
+          lines = [line for line in text.splitlines() if re.search(r"\berror\b", line, re.I)]
+          step_errors = [line for line in lines if re.match(r"error\s+-\s+", line.strip())]
+          file_errors = [line for line in lines if re.search(r"\d+:\d+\s+error\s+", line)]
+          other = [
+              line
+              for line in lines
+              if line not in step_errors
+              and line not in file_errors
+              and "linting issues found" not in line.lower()
+          ]
+          bad_steps = [line for line in step_errors if "validate package.json" not in line]
+          bad_files = [line for line in file_errors if "Invalid author" not in line]
+          if bad_steps or bad_files or other or not any("Invalid author" in line for line in file_errors):
+              print("unexpected ray lint errors")
+              print("\n".join(bad_steps + bad_files + other))
+              sys.exit(1)
+          print("ray lint: only the missing Raycast username remains")
           PY
       - name: Chrome
         working-directory: chrome
